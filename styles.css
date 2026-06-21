@@ -186,6 +186,10 @@ h1 {
   text-align: center;
 }
 
+.result-banner.hidden {
+  display: none;
+}
+
 .result-banner-logo {
   width: 64px;
   height: 64px;

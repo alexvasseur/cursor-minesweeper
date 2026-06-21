@@ -370,6 +370,9 @@ function endGame(won) {
     });
   } else {
     newGameBtn.textContent = "😎 New Game";
+    const nextSize = clamp(Number(sizeSlider.value) + 1, MIN_SIZE, MAX_SIZE);
+    sizeSlider.value = String(nextSize);
+    updateControlLabels();
     showResultBanner({
       title: "Well done",
       logoPath: flagIconPath,
