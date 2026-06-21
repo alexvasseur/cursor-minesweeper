@@ -450,10 +450,14 @@ function newGame() {
 }
 
 newGameBtn.addEventListener("click", newGame);
-flagModeBtn.addEventListener("click", () => {
+const toggleFlagMode = (event) => {
+  event.preventDefault();
   flagModeEnabled = !flagModeEnabled;
   updateFlagModeButton();
-});
+};
+
+flagModeBtn.addEventListener("click", toggleFlagMode);
+flagModeBtn.addEventListener("touchend", toggleFlagMode, { passive: false });
 modalNewGameBtn.addEventListener("click", newGame);
 resultModalEl.addEventListener("click", (event) => {
   if (event.target === resultModalEl) {
