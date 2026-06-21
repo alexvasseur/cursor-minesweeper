@@ -23,13 +23,27 @@
           <p id="mineCounter" class="counter">Mines: 0</p>
           <p id="timer" class="counter">Time: 0s</p>
         </div>
+        <p id="gameLine" class="game-line" aria-live="polite"></p>
         <p class="hint">Click to reveal. Shift + click to place or remove a flag.</p>
       </section>
 
       <section class="board-wrap card">
-        <div id="board" class="board" role="grid" aria-label="Minesweeper board"></div>
+        <div class="board-shell">
+          <button id="flagModeBtn" type="button" class="flag-mode-btn" aria-pressed="false">
+            🚩 Flag Mode: OFF
+          </button>
+          <div id="board" class="board" role="grid" aria-label="Minesweeper board"></div>
+        </div>
       </section>
     </main>
+
+    <div id="resultModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-card">
+        <img id="modalLogo" class="modal-logo" alt="" />
+        <h2 id="modalTitle"></h2>
+        <button id="modalNewGameBtn" type="button">New Game</button>
+      </div>
+    </div>
 
     <template id="cellTemplate">
       <button type="button" class="cell" role="gridcell" aria-label="Hidden cell"></button>

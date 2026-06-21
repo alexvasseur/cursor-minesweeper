@@ -5,12 +5,18 @@ const MAX_DENSITY = 25;
 
 const boardEl = document.getElementById("board");
 const newGameBtn = document.getElementById("newGameBtn");
+const flagModeBtn = document.getElementById("flagModeBtn");
 const sizeSlider = document.getElementById("sizeSlider");
 const densitySlider = document.getElementById("densitySlider");
 const sizeValueEl = document.getElementById("sizeValue");
 const densityValueEl = document.getElementById("densityValue");
 const mineCounterEl = document.getElementById("mineCounter");
 const timerEl = document.getElementById("timer");
+const gameLineEl = document.getElementById("gameLine");
+const resultModalEl = document.getElementById("resultModal");
+const modalLogoEl = document.getElementById("modalLogo");
+const modalTitleEl = document.getElementById("modalTitle");
+const modalNewGameBtn = document.getElementById("modalNewGameBtn");
 const cellTemplate = document.getElementById("cellTemplate");
 
 const flagIconPath = "./assets/cursor-logo.svg";
@@ -18,6 +24,7 @@ const mineIconPath = "./assets/anthropic-logo.svg";
 
 let gameState = null;
 let timerHandle = null;
+let flagModeEnabled = false;
 
 function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value));
@@ -175,6 +182,26 @@ function updateMineCounter() {
   }
   const remaining = Math.max(0, gameState.mineCount - gameState.flagsCount);
   mineCounterEl.textContent = `Mines: ${remaining}`;
+}
+
+function setGameLine(text) {
+  gameLineEl.textContent = text;
+}
+
+function updateFlagModeButton() {
+  flagModeBtn.textContent = flagModeEnabled ? "🚩 Flag Mode: ON" : "🚩 Flag Mode: OFF";
+  flagModeBtn.setAttribute("aria-pressed", String(flagModeEnabled));
+}
+
+function closeResultModal() {
+  resultModalEl.classList.add("hidden");
+}
+
+function showResultModal({ title, logoPath, logoAlt }) {
+  modalTitleEl.textContent = title;
+  modalLogoEl.src = logoPath;
+  modalLogoEl.alt = logoAlt;
+  resultModalEl.classList.remove("hidden");
 }
 
 function clearBoardDom() {
@@ -341,8 +368,20 @@ function endGame(won) {
   if (!won) {
     revealAllMines();
     newGameBtn.textContent = "😵 New Game";
+    setGameLine("Game over");
+    showResultModal({
+      title: "Game over",
+      logoPath: mineIconPath,
+      logoAlt: "Anthropic logo",
+    });
   } else {
     newGameBtn.textContent = "😎 New Game";
+    setGameLine("Well done");
+    showResultModal({
+      title: "Well done",
+      logoPath: flagIconPath,
+      logoAlt: "Cursor logo",
+    });
   }
   stopTimer();
   refreshBoardDom();
@@ -370,7 +409,7 @@ function onCellClick(event) {
   const row = Number(target.dataset.row);
   const col = Number(target.dataset.col);
 
-  if (event.shiftKey) {
+  if (event.shiftKey || flagModeEnabled) {
     toggleFlag(row, col);
     return;
   }
@@ -399,18 +438,33 @@ function newGame() {
   const size = clamp(Number(sizeSlider.value), MIN_SIZE, MAX_SIZE);
   const density = clamp(Number(densitySlider.value), MIN_DENSITY, MAX_DENSITY);
   gameState = createState(size, density);
+  flagModeEnabled = false;
+  updateFlagModeButton();
+  closeResultModal();
   updateControlLabels();
   newGameBtn.textContent = "🙂 New Game";
+  setGameLine("");
   resetTimerDisplay();
   updateMineCounter();
   renderBoard();
 }
 
 newGameBtn.addEventListener("click", newGame);
+flagModeBtn.addEventListener("click", () => {
+  flagModeEnabled = !flagModeEnabled;
+  updateFlagModeButton();
+});
+modalNewGameBtn.addEventListener("click", newGame);
+resultModalEl.addEventListener("click", (event) => {
+  if (event.target === resultModalEl) {
+    closeResultModal();
+  }
+});
 sizeSlider.addEventListener("input", updateControlLabels);
 densitySlider.addEventListener("input", updateControlLabels);
 sizeSlider.addEventListener("change", newGame);
 densitySlider.addEventListener("change", newGame);
 
 updateControlLabels();
+updateFlagModeButton();
 newGame();

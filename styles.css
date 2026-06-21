@@ -82,9 +82,38 @@ h1 {
   margin: 0;
 }
 
+.game-line {
+  margin: 0;
+  min-height: 1.25rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
 .board-wrap {
   overflow: auto;
   max-height: calc(100vh - 260px);
+}
+
+.board-shell {
+  width: fit-content;
+}
+
+.flag-mode-btn {
+  width: 100%;
+  margin-bottom: 0.5rem;
+  border: 1px solid color-mix(in srgb, var(--fg) 30%, transparent);
+  background: color-mix(in srgb, var(--accent) 12%, var(--card-02) 88%);
+  color: var(--fg);
+  border-radius: 0.55rem;
+  min-height: 2.7rem;
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.flag-mode-btn[aria-pressed="true"] {
+  background: color-mix(in srgb, var(--accent) 25%, var(--card-02) 75%);
+  border-color: var(--accent);
 }
 
 .board {
@@ -156,4 +185,50 @@ h1 {
 }
 .n8 {
   color: #616161;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 50;
+}
+
+.hidden {
+  display: none;
+}
+
+.modal-card {
+  background: var(--card);
+  color: var(--fg);
+  border-radius: 0.85rem;
+  border: 1px solid color-mix(in srgb, var(--fg) 20%, transparent);
+  min-width: min(380px, calc(100vw - 2rem));
+  max-width: calc(100vw - 2rem);
+  padding: 1.1rem;
+  display: grid;
+  gap: 0.8rem;
+  justify-items: center;
+}
+
+.modal-logo {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+}
+
+#modalTitle {
+  margin: 0;
+}
+
+#modalNewGameBtn {
+  border: 1px solid color-mix(in srgb, var(--fg) 30%, transparent);
+  background: var(--card-02);
+  color: var(--fg);
+  border-radius: 0.5rem;
+  padding: 0.45rem 0.9rem;
+  cursor: pointer;
+  font-weight: 700;
 }
