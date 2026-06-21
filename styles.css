@@ -94,19 +94,14 @@ h1 {
 .flag-mode-btn {
   width: 100%;
   margin-bottom: 0.5rem;
-  border: 1px solid color-mix(in srgb, var(--fg) 30%, transparent);
-  background: color-mix(in srgb, var(--accent) 12%, var(--card-02) 88%);
-  color: var(--fg);
-  border-radius: 0.55rem;
   min-height: 2.7rem;
   font-size: 1rem;
-  font-weight: 800;
-  cursor: pointer;
+  font-weight: 700;
 }
 
 .flag-mode-btn[aria-pressed="true"] {
-  background: color-mix(in srgb, var(--accent) 25%, var(--card-02) 75%);
-  border-color: var(--accent);
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
 }
 
 .board {

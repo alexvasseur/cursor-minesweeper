@@ -442,14 +442,12 @@ function newGame() {
 }
 
 newGameBtn.addEventListener("click", newGame);
-const toggleFlagMode = (event) => {
-  event.preventDefault();
+const toggleFlagMode = () => {
   flagModeEnabled = !flagModeEnabled;
   updateFlagModeButton();
 };
 
 flagModeBtn.addEventListener("click", toggleFlagMode);
-flagModeBtn.addEventListener("touchend", toggleFlagMode, { passive: false });
 resultBannerNewGameBtn.addEventListener("click", newGame);
 sizeSlider.addEventListener("input", updateControlLabels);
 densitySlider.addEventListener("input", updateControlLabels);
