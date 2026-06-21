@@ -1,0 +1,159 @@
+:root {
+  color-scheme: light dark;
+  --bg: #f7f7f4;
+  --fg: #26251e;
+  --accent: #f54e00;
+  --card: #f2f1ed;
+  --card-02: #ebeae5;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #14120b;
+    --fg: #edecec;
+    --card: #1b1913;
+    --card-02: #201e18;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.app {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+h1 {
+  margin-top: 0.25rem;
+  text-align: center;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid color-mix(in srgb, var(--fg) 20%, transparent);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.controls {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.control {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.status-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+#newGameBtn {
+  border: 1px solid color-mix(in srgb, var(--fg) 30%, transparent);
+  background: var(--card-02);
+  color: var(--fg);
+  border-radius: 0.5rem;
+  padding: 0.45rem 0.75rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+#newGameBtn:hover {
+  border-color: var(--accent);
+}
+
+.counter,
+.hint {
+  margin: 0;
+}
+
+.board-wrap {
+  overflow: auto;
+  max-height: calc(100vh - 260px);
+}
+
+.board {
+  display: grid;
+  gap: 0;
+  width: fit-content;
+  border: 2px solid color-mix(in srgb, var(--fg) 25%, transparent);
+  user-select: none;
+}
+
+.cell {
+  width: 28px;
+  height: 28px;
+  border: 1px solid color-mix(in srgb, var(--fg) 30%, transparent);
+  background: color-mix(in srgb, var(--card) 90%, #fff 10%);
+  color: var(--fg);
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 0.95rem;
+  padding: 0;
+  display: grid;
+  place-items: center;
+}
+
+.cell:hover:not(.revealed):not(.game-over) {
+  outline: 2px solid color-mix(in srgb, var(--accent) 75%, transparent);
+  outline-offset: -2px;
+}
+
+.cell.revealed {
+  background: color-mix(in srgb, var(--card-02) 85%, #d8d8d8 15%);
+  cursor: default;
+}
+
+.cell.mine.revealed {
+  background: color-mix(in srgb, var(--accent) 25%, var(--card-02) 75%);
+}
+
+.cell.flagged {
+  background: color-mix(in srgb, var(--accent) 10%, var(--card) 90%);
+}
+
+.icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+
+.n1 {
+  color: #2f6df6;
+}
+.n2 {
+  color: #2c9a3b;
+}
+.n3 {
+  color: #cb2831;
+}
+.n4 {
+  color: #5e35b1;
+}
+.n5 {
+  color: #b55200;
+}
+.n6 {
+  color: #00796b;
+}
+.n7 {
+  color: #212121;
+}
+.n8 {
+  color: #616161;
+}
