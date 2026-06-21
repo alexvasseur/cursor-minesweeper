@@ -12,11 +12,10 @@ const sizeValueEl = document.getElementById("sizeValue");
 const densityValueEl = document.getElementById("densityValue");
 const mineCounterEl = document.getElementById("mineCounter");
 const timerEl = document.getElementById("timer");
-const gameLineEl = document.getElementById("gameLine");
-const resultModalEl = document.getElementById("resultModal");
-const modalLogoEl = document.getElementById("modalLogo");
-const modalTitleEl = document.getElementById("modalTitle");
-const modalNewGameBtn = document.getElementById("modalNewGameBtn");
+const resultBannerEl = document.getElementById("resultBanner");
+const resultBannerLogoEl = document.getElementById("resultBannerLogo");
+const resultBannerTitleEl = document.getElementById("resultBannerTitle");
+const resultBannerNewGameBtn = document.getElementById("resultBannerNewGameBtn");
 const cellTemplate = document.getElementById("cellTemplate");
 
 const flagIconPath = "./assets/cursor-logo.svg";
@@ -184,24 +183,20 @@ function updateMineCounter() {
   mineCounterEl.textContent = `Mines: ${remaining}`;
 }
 
-function setGameLine(text) {
-  gameLineEl.textContent = text;
-}
-
 function updateFlagModeButton() {
   flagModeBtn.textContent = flagModeEnabled ? "🚩 Flag Mode: ON" : "🚩 Flag Mode: OFF";
   flagModeBtn.setAttribute("aria-pressed", String(flagModeEnabled));
 }
 
-function closeResultModal() {
-  resultModalEl.classList.add("hidden");
+function hideResultBanner() {
+  resultBannerEl.classList.add("hidden");
 }
 
-function showResultModal({ title, logoPath, logoAlt }) {
-  modalTitleEl.textContent = title;
-  modalLogoEl.src = logoPath;
-  modalLogoEl.alt = logoAlt;
-  resultModalEl.classList.remove("hidden");
+function showResultBanner({ title, logoPath, logoAlt }) {
+  resultBannerTitleEl.textContent = title;
+  resultBannerLogoEl.src = logoPath;
+  resultBannerLogoEl.alt = logoAlt;
+  resultBannerEl.classList.remove("hidden");
 }
 
 function clearBoardDom() {
@@ -368,16 +363,14 @@ function endGame(won) {
   if (!won) {
     revealAllMines();
     newGameBtn.textContent = "😵 New Game";
-    setGameLine("Game over");
-    showResultModal({
+    showResultBanner({
       title: "Game over",
       logoPath: mineIconPath,
       logoAlt: "Anthropic logo",
     });
   } else {
     newGameBtn.textContent = "😎 New Game";
-    setGameLine("Well done");
-    showResultModal({
+    showResultBanner({
       title: "Well done",
       logoPath: flagIconPath,
       logoAlt: "Cursor logo",
@@ -440,10 +433,9 @@ function newGame() {
   gameState = createState(size, density);
   flagModeEnabled = false;
   updateFlagModeButton();
-  closeResultModal();
+  hideResultBanner();
   updateControlLabels();
   newGameBtn.textContent = "🙂 New Game";
-  setGameLine("");
   resetTimerDisplay();
   updateMineCounter();
   renderBoard();
@@ -458,12 +450,7 @@ const toggleFlagMode = (event) => {
 
 flagModeBtn.addEventListener("click", toggleFlagMode);
 flagModeBtn.addEventListener("touchend", toggleFlagMode, { passive: false });
-modalNewGameBtn.addEventListener("click", newGame);
-resultModalEl.addEventListener("click", (event) => {
-  if (event.target === resultModalEl) {
-    closeResultModal();
-  }
-});
+resultBannerNewGameBtn.addEventListener("click", newGame);
 sizeSlider.addEventListener("input", updateControlLabels);
 densitySlider.addEventListener("input", updateControlLabels);
 sizeSlider.addEventListener("change", newGame);

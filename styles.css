@@ -82,13 +82,6 @@ h1 {
   margin: 0;
 }
 
-.game-line {
-  margin: 0;
-  min-height: 1.25rem;
-  font-weight: 700;
-  color: var(--accent);
-}
-
 .board-wrap {
   overflow: auto;
   max-height: calc(100vh - 260px);
@@ -187,43 +180,30 @@ h1 {
   color: #616161;
 }
 
-.modal {
-  position: fixed;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  background: rgba(0, 0, 0, 0.45);
-  z-index: 50;
-}
-
 .hidden {
   display: none;
 }
 
-.modal-card {
-  background: var(--card);
-  color: var(--fg);
-  border-radius: 0.85rem;
-  border: 1px solid color-mix(in srgb, var(--fg) 20%, transparent);
-  min-width: min(380px, calc(100vw - 2rem));
-  max-width: calc(100vw - 2rem);
-  padding: 1.1rem;
+.result-banner {
   display: grid;
-  gap: 0.8rem;
+  gap: 0.6rem;
   justify-items: center;
+  text-align: center;
 }
 
-.modal-logo {
+.result-banner-logo {
   width: 64px;
   height: 64px;
   object-fit: contain;
 }
 
-#modalTitle {
+.result-banner-title {
   margin: 0;
+  color: var(--accent);
+  font-size: 1.75rem;
 }
 
-#modalNewGameBtn {
+#resultBannerNewGameBtn {
   border: 1px solid color-mix(in srgb, var(--fg) 30%, transparent);
   background: var(--card-02);
   color: var(--fg);
