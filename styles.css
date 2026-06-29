@@ -33,9 +33,19 @@ body {
   padding: 1rem;
 }
 
-h1 {
-  margin-top: 0.25rem;
+.app-header {
   text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+h1 {
+  margin: 0.25rem 0 0.35rem;
+}
+
+.last-update {
+  margin: 0;
+  font-size: 0.9rem;
+  color: color-mix(in srgb, var(--fg) 60%, transparent);
 }
 
 .card {
