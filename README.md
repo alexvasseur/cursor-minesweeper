@@ -10,7 +10,7 @@ Classic-style Minesweeper built with plain HTML, CSS, and JavaScript.
 - **Shift + click** toggles a flag
 - First click is always safe (and includes a safe neighborhood)
 - Recursive reveal of empty areas, win/loss states, and timer
-- Cursor logo used for flags and Anthropic logo used for mines
+- Cursor logo used for flags and a bomb icon used for mines
 
 ## Run locally
 

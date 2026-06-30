@@ -19,7 +19,7 @@ const resultBannerNewGameBtn = document.getElementById("resultBannerNewGameBtn")
 const cellTemplate = document.getElementById("cellTemplate");
 
 const flagIconPath = "./assets/cursor-logo.svg";
-const mineIconPath = "./assets/anthropic-logo.svg";
+const mineIconPath = "./assets/bomb.svg";
 
 let gameState = null;
 let timerHandle = null;
@@ -232,9 +232,9 @@ function renderBoard() {
   refreshBoardDom();
 }
 
-function createIcon(src, alt) {
+function createIcon(src, alt, extraClass = "") {
   const icon = document.createElement("img");
-  icon.className = "icon";
+  icon.className = extraClass ? `icon ${extraClass}` : "icon";
   icon.src = src;
   icon.alt = alt;
   return icon;
@@ -249,7 +249,7 @@ function setCellContent(button, cell) {
   button.classList.toggle("game-over", gameState?.gameOver ?? false);
 
   if (cell.isFlagged && !cell.isRevealed) {
-    button.append(createIcon(flagIconPath, "Flag"));
+    button.append(createIcon(flagIconPath, "Flag", "icon-flag"));
     button.ariaLabel = "Flagged cell";
     return;
   }
@@ -260,7 +260,7 @@ function setCellContent(button, cell) {
   }
 
   if (cell.isMine) {
-    button.append(createIcon(mineIconPath, "Mine"));
+    button.append(createIcon(mineIconPath, "Mine", "icon-mine"));
     button.ariaLabel = "Mine";
     return;
   }
@@ -366,7 +366,7 @@ function endGame(won) {
     showResultBanner({
       title: "Game over",
       logoPath: mineIconPath,
-      logoAlt: "Anthropic logo",
+      logoAlt: "Bomb icon",
     });
   } else {
     newGameBtn.textContent = "😎 New Game";

@@ -1,11 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Cursor flag icon">
-  <defs>
-    <linearGradient id="cursorGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#ff7a33" />
-      <stop offset="100%" stop-color="#f54e00" />
-    </linearGradient>
-  </defs>
-  <rect x="8" y="8" width="112" height="112" rx="24" fill="#17140e" />
-  <path d="M34 34h25l35 35v25H69L34 59V34z" fill="url(#cursorGradient)" />
-  <path d="M69 34h25v25L59 94H34V69L69 34z" fill="#fff" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Cursor logo">
+  <path d="M64 10 L110 36 V92 L64 118 L18 92 V36 Z" fill="#4a4a4a" />
+  <path d="M64 10 L110 36 V92 L64 118 V10 Z" fill="#2f2f2f" />
+  <path d="M38 38 L72 38 L92 58 L72 90 H38 V38 Z" fill="#ffffff" />
+  <path d="M72 38 H92 L72 58 V38 Z" fill="#c8c8c8" />
+  <path d="M72 58 L92 58 L72 90 V58 Z" fill="#a8a8a8" />
 </svg>

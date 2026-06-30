@@ -155,9 +155,19 @@ h1 {
 }
 
 .icon {
-  width: 18px;
-  height: 18px;
+  width: 14px;
+  height: 14px;
   object-fit: contain;
+}
+
+.icon-flag {
+  width: 13px;
+  height: 13px;
+}
+
+.icon-mine {
+  width: 15px;
+  height: 15px;
 }
 
 .n1 {
@@ -201,8 +211,8 @@ h1 {
 }
 
 .result-banner-logo {
-  width: 64px;
-  height: 64px;
+  width: 48px;
+  height: 48px;
   object-fit: contain;
 }
 
