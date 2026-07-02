@@ -3,7 +3,10 @@ const MAX_SIZE = 64;
 const MIN_DENSITY = 10;
 const MAX_DENSITY = 25;
 
+const THEME_STORAGE_KEY = "minesweeper-theme";
+
 const boardEl = document.getElementById("board");
+const themeToggleBtn = document.getElementById("themeToggle");
 const newGameBtn = document.getElementById("newGameBtn");
 const flagModeBtn = document.getElementById("flagModeBtn");
 const sizeSlider = document.getElementById("sizeSlider");
@@ -27,6 +30,28 @@ let flagModeEnabled = false;
 
 function clamp(value, min, max) {
   return Math.min(max, Math.max(min, value));
+}
+
+function getTheme() {
+  return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
+}
+
+function updateThemeToggleLabel() {
+  const theme = getTheme();
+  themeToggleBtn.setAttribute(
+    "aria-label",
+    theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
+  );
+}
+
+function setTheme(theme) {
+  document.documentElement.setAttribute("data-theme", theme);
+  localStorage.setItem(THEME_STORAGE_KEY, theme);
+  updateThemeToggleLabel();
+}
+
+function toggleTheme() {
+  setTheme(getTheme() === "dark" ? "light" : "dark");
 }
 
 function toCellKey(row, col) {
@@ -444,6 +469,8 @@ function newGame() {
   renderBoard();
 }
 
+themeToggleBtn.addEventListener("click", toggleTheme);
+
 newGameBtn.addEventListener("click", newGame);
 const toggleFlagMode = () => {
   flagModeEnabled = !flagModeEnabled;
@@ -457,6 +484,7 @@ densitySlider.addEventListener("input", updateControlLabels);
 sizeSlider.addEventListener("change", newGame);
 densitySlider.addEventListener("change", newGame);
 
+updateThemeToggleLabel();
 updateControlLabels();
 updateFlagModeButton();
 newGame();
