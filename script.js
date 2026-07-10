@@ -180,11 +180,11 @@ function resetTimerDisplay() {
 
 function updateMineCounter() {
   if (!gameState) {
-    mineCounterEl.textContent = "Mines: 0";
+    mineCounterEl.textContent = "Mines: 0 left of 0";
     return;
   }
   const remaining = Math.max(0, gameState.mineCount - gameState.flagsCount);
-  mineCounterEl.textContent = `Mines: ${remaining}`;
+  mineCounterEl.textContent = `Mines: ${remaining} left of ${gameState.mineCount}`;
 }
 
 function updateFlagModeButton() {
