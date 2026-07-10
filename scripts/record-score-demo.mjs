@@ -70,13 +70,25 @@ async function readBoard(page) {
 }
 
 async function clickCell(page, row, col) {
-  await page.locator(`.cell[data-row="${row}"][data-col="${col}"]`).click();
+  const locator = page.locator(`.cell[data-row="${row}"][data-col="${col}"]`);
+  const isEnabled = await locator.isEnabled();
+  if (!isEnabled) {
+    return false;
+  }
+  await locator.click();
   await page.waitForTimeout(180);
+  return true;
 }
 
 async function flagCell(page, row, col) {
-  await page.locator(`.cell[data-row="${row}"][data-col="${col}"]`).click({ modifiers: ["Shift"] });
+  const locator = page.locator(`.cell[data-row="${row}"][data-col="${col}"]`);
+  const isEnabled = await locator.isEnabled();
+  if (!isEnabled) {
+    return false;
+  }
+  await locator.click({ modifiers: ["Shift"] });
   await page.waitForTimeout(180);
+  return true;
 }
 
 async function solveCurrentGame(page) {
@@ -114,14 +126,16 @@ async function solveCurrentGame(page) {
       }
 
       if (hidden.length > 0 && hidden.length + flagged.length === cell.number) {
-        for (const [r, c] of hidden) {
-          await flagCell(page, r, c);
-          moved = true;
+        const [r, c] = hidden[0];
+        moved = await flagCell(page, r, c);
+        if (moved) {
+          break;
         }
       } else if (hidden.length > 0 && flagged.length === cell.number) {
-        for (const [r, c] of hidden) {
-          await clickCell(page, r, c);
-          moved = true;
+        const [r, c] = hidden[0];
+        moved = await clickCell(page, r, c);
+        if (moved) {
+          break;
         }
       }
     }
@@ -135,9 +149,10 @@ async function solveCurrentGame(page) {
         for (const [r, c] of neighbors) {
           const neighbor = board.cells.find((entry) => entry.row === r && entry.col === c);
           if (neighbor && !neighbor.revealed && !neighbor.flagged) {
-            await clickCell(page, r, c);
-            moved = true;
-            break;
+            moved = await clickCell(page, r, c);
+            if (moved) {
+              break;
+            }
           }
         }
         if (moved) {
@@ -168,12 +183,17 @@ async function waitForWinBanner(page) {
 }
 
 async function playWinningGame(page, gameNumber) {
-  await configureBoard(page, 8, 12);
-  const won = await solveCurrentGame(page);
-  if (!won) {
-    throw new Error(`Game ${gameNumber} did not finish with a win`);
+  for (let attempt = 0; attempt < 5; attempt += 1) {
+    await configureBoard(page, 5, 10);
+    const won = await solveCurrentGame(page);
+    if (won) {
+      await waitForWinBanner(page);
+      return;
+    }
+    await page.locator("#newGameBtn").click();
+    await page.waitForTimeout(400);
   }
-  await waitForWinBanner(page);
+  throw new Error(`Game ${gameNumber} did not finish with a win`);
 }
 
 async function main() {
