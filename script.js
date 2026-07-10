@@ -2,6 +2,8 @@ const MIN_SIZE = 5;
 const MAX_SIZE = 64;
 const MIN_DENSITY = 10;
 const MAX_DENSITY = 25;
+const TOP_SCORES_LIMIT = 5;
+const SCORES_STORAGE_KEY = "minesweeper-top-scores";
 
 const boardEl = document.getElementById("board");
 const newGameBtn = document.getElementById("newGameBtn");
@@ -16,6 +18,8 @@ const resultBannerEl = document.getElementById("resultBanner");
 const resultBannerLogoEl = document.getElementById("resultBannerLogo");
 const resultBannerTitleEl = document.getElementById("resultBannerTitle");
 const resultBannerNewGameBtn = document.getElementById("resultBannerNewGameBtn");
+const resultBannerScoreEl = document.getElementById("resultBannerScore");
+const topScoresListEl = document.getElementById("topScoresList");
 const cellTemplate = document.getElementById("cellTemplate");
 
 const flagIconPath = "./assets/cursor-logo.svg";
@@ -188,14 +192,117 @@ function updateFlagModeButton() {
   flagModeBtn.setAttribute("aria-pressed", String(flagModeEnabled));
 }
 
-function hideResultBanner() {
-  resultBannerEl.classList.add("hidden");
+function getElapsedSeconds() {
+  if (!gameState || gameState.startedAtMs === null) {
+    return 0;
+  }
+  return Math.floor((Date.now() - gameState.startedAtMs) / 1000);
 }
 
-function showResultBanner({ title, logoPath, logoAlt }) {
+function calculateScore() {
+  if (!gameState) {
+    return 0;
+  }
+  const elapsedSeconds = Math.max(1, getElapsedSeconds());
+  const difficulty = gameState.size * gameState.size * gameState.densityPercent;
+  return Math.round((difficulty / elapsedSeconds) * 10);
+}
+
+function loadTopScores() {
+  try {
+    const raw = localStorage.getItem(SCORES_STORAGE_KEY);
+    if (!raw) {
+      return [];
+    }
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) {
+      return [];
+    }
+    return parsed
+      .filter((entry) => typeof entry.score === "number" && typeof entry.date === "string")
+      .sort((a, b) => b.score - a.score)
+      .slice(0, TOP_SCORES_LIMIT);
+  } catch {
+    return [];
+  }
+}
+
+function saveTopScore(score) {
+  const entry = {
+    score,
+    date: new Date().toISOString(),
+  };
+  const scores = [...loadTopScores(), entry]
+    .sort((a, b) => b.score - a.score)
+    .slice(0, TOP_SCORES_LIMIT);
+  localStorage.setItem(SCORES_STORAGE_KEY, JSON.stringify(scores));
+  return scores;
+}
+
+function formatScoreDate(isoDate) {
+  return new Date(isoDate).toLocaleString(undefined, {
+    dateStyle: "medium",
+    timeStyle: "short",
+  });
+}
+
+function renderTopScores() {
+  if (!topScoresListEl) {
+    return;
+  }
+  const scores = loadTopScores();
+  topScoresListEl.replaceChildren();
+
+  if (scores.length === 0) {
+    const emptyItem = document.createElement("li");
+    emptyItem.className = "top-scores-empty";
+    emptyItem.textContent = "No scores yet. Win a game to get started.";
+    topScoresListEl.append(emptyItem);
+    return;
+  }
+
+  scores.forEach((entry, index) => {
+    const item = document.createElement("li");
+    item.className = "top-score-item";
+
+    const rank = document.createElement("span");
+    rank.className = "top-score-rank";
+    rank.textContent = `#${index + 1}`;
+
+    const value = document.createElement("span");
+    value.className = "top-score-value";
+    value.textContent = String(entry.score);
+
+    const date = document.createElement("span");
+    date.className = "top-score-date";
+    date.textContent = formatScoreDate(entry.date);
+
+    item.append(rank, value, date);
+    topScoresListEl.append(item);
+  });
+}
+
+function hideResultBanner() {
+  resultBannerEl.classList.add("hidden");
+  if (resultBannerScoreEl) {
+    resultBannerScoreEl.textContent = "";
+    resultBannerScoreEl.classList.add("hidden");
+  }
+}
+
+function showResultBanner({ title, logoPath, logoAlt, score = null }) {
   resultBannerTitleEl.textContent = title;
   resultBannerLogoEl.src = logoPath;
   resultBannerLogoEl.alt = logoAlt;
+  if (resultBannerScoreEl) {
+    if (score === null) {
+      resultBannerScoreEl.textContent = "";
+      resultBannerScoreEl.classList.add("hidden");
+    } else {
+      resultBannerScoreEl.textContent = `Score: ${score}`;
+      resultBannerScoreEl.classList.remove("hidden");
+    }
+  }
   resultBannerEl.classList.remove("hidden");
 }
 
@@ -370,6 +477,9 @@ function endGame(won) {
     });
   } else {
     newGameBtn.textContent = "😎 New Game";
+    const score = calculateScore();
+    saveTopScore(score);
+    renderTopScores();
     const nextSize = clamp(Number(sizeSlider.value) + 1, MIN_SIZE, MAX_SIZE);
     sizeSlider.value = String(nextSize);
     updateControlLabels();
@@ -377,6 +487,7 @@ function endGame(won) {
       title: "Well done",
       logoPath: flagIconPath,
       logoAlt: "Cursor logo",
+      score,
     });
   }
   stopTimer();
@@ -459,4 +570,5 @@ densitySlider.addEventListener("change", newGame);
 
 updateControlLabels();
 updateFlagModeButton();
+renderTopScores();
 newGame();

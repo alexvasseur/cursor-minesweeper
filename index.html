@@ -27,11 +27,16 @@
           <p id="timer" class="counter">Time: 0s</p>
         </div>
         <p class="hint">Click to reveal. Shift + click to place or remove a flag.</p>
+        <section class="top-scores" aria-label="Your best scores">
+          <h2 class="top-scores-title">Your Best Scores</h2>
+          <ol id="topScoresList" class="top-scores-list"></ol>
+        </section>
       </section>
 
       <section id="resultBanner" class="card result-banner hidden" aria-live="polite">
         <img id="resultBannerLogo" class="result-banner-logo" alt="" />
         <h2 id="resultBannerTitle" class="result-banner-title"></h2>
+        <p id="resultBannerScore" class="result-banner-score hidden"></p>
         <button id="resultBannerNewGameBtn" type="button">New Game</button>
       </section>
 

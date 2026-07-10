@@ -222,6 +222,61 @@ h1 {
   font-size: 1.75rem;
 }
 
+.result-banner-score {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.top-scores {
+  border-top: 1px solid color-mix(in srgb, var(--fg) 15%, transparent);
+  padding-top: 0.75rem;
+}
+
+.top-scores-title {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+}
+
+.top-scores-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.top-scores-empty {
+  margin: 0;
+  color: color-mix(in srgb, var(--fg) 60%, transparent);
+  font-size: 0.9rem;
+}
+
+.top-score-item {
+  display: grid;
+  grid-template-columns: 2.5rem 4.5rem 1fr;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.35rem 0.5rem;
+  border-radius: 0.4rem;
+  background: var(--card-02);
+  font-size: 0.9rem;
+}
+
+.top-score-rank {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.top-score-value {
+  font-weight: 700;
+}
+
+.top-score-date {
+  color: color-mix(in srgb, var(--fg) 65%, transparent);
+  text-align: right;
+}
+
 #resultBannerNewGameBtn {
   border: 1px solid color-mix(in srgb, var(--fg) 30%, transparent);
   background: var(--card-02);

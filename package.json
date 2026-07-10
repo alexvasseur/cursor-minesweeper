@@ -1,0 +1,23 @@
+{
+  "name": "workspace",
+  "version": "1.0.0",
+  "description": "Classic-style Minesweeper built with plain HTML, CSS, and JavaScript.",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexvasseur/cursor-minesweeper.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alexvasseur/cursor-minesweeper/issues"
+  },
+  "homepage": "https://github.com/alexvasseur/cursor-minesweeper#readme",
+  "devDependencies": {
+    "playwright": "^1.61.1"
+  }
+}
