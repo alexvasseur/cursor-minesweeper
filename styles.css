@@ -1,19 +1,24 @@
-:root {
-  color-scheme: light dark;
+:root,
+[data-theme="light"] {
+  color-scheme: light;
   --bg: #f7f7f4;
   --fg: #26251e;
   --accent: #f54e00;
   --card: #f2f1ed;
   --card-02: #ebeae5;
+  --cell-reveal-mix: #d8d8d8;
+  --cell-unrevealed-mix: #fff;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #14120b;
-    --fg: #edecec;
-    --card: #1b1913;
-    --card-02: #201e18;
-  }
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #14120b;
+  --fg: #edecec;
+  --accent: #f54e00;
+  --card: #1b1913;
+  --card-02: #201e18;
+  --cell-reveal-mix: #3a3832;
+  --cell-unrevealed-mix: #000;
 }
 
 * {
@@ -25,6 +30,44 @@ body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background: var(--bg);
   color: var(--fg);
+}
+
+.theme-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: 1px solid color-mix(in srgb, var(--fg) 25%, transparent);
+  border-radius: 0.5rem;
+  background: var(--card);
+  color: var(--fg);
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.theme-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  grid-area: 1 / 1;
+}
+
+[data-theme="light"] .theme-icon-sun,
+[data-theme="dark"] .theme-icon-moon {
+  display: none;
 }
 
 .app {
@@ -126,7 +169,7 @@ h1 {
   width: 28px;
   height: 28px;
   border: 1px solid color-mix(in srgb, var(--fg) 30%, transparent);
-  background: color-mix(in srgb, var(--card) 90%, #fff 10%);
+  background: color-mix(in srgb, var(--card) 90%, var(--cell-unrevealed-mix) 10%);
   color: var(--fg);
   font-weight: 700;
   cursor: pointer;
@@ -142,7 +185,7 @@ h1 {
 }
 
 .cell.revealed {
-  background: color-mix(in srgb, var(--card-02) 85%, #d8d8d8 15%);
+  background: color-mix(in srgb, var(--card-02) 85%, var(--cell-reveal-mix) 15%);
   cursor: default;
 }
 
